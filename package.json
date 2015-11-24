@@ -1,0 +1,15 @@
+{
+  "name": "best",
+  "version": "1.0.0",
+  "description": "run arbitrarily defined best practice tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "John Weis <weis.john@gmail.com>",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "eslint": "^1.10.1",
+    "eslint-config-airbnb": "^1.0.0"
+  }
+}
