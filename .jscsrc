@@ -2,6 +2,7 @@
   "preset": "airbnb",
   "disallowSpacesInFunctionExpression": null,
   "disallowSpacesInAnonymousFunctionExpression": null,
+  "disallowSpacesInsideArrayBrackets": null,
   "disallowTrailingWhitespace": null,
   "requireCamelCaseOrUpperCaseIdentifiers": null,
   "requireSpaceBetweenArguments": null,
