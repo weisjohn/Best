@@ -7,4 +7,5 @@
   "requireCamelCaseOrUpperCaseIdentifiers": null,
   "requireSpaceBetweenArguments": null,
   "requireTrailingComma": null,
+  "requirePaddingNewLinesAfterBlocks": null
 }
