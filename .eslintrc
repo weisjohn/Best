@@ -1,0 +1,12 @@
+{
+  "env": {
+    "node": true,
+  },
+  "extends": "airbnb/base",
+  "rules": {
+    "no-var": [ 0 ],
+    "vars-on-top": [ 0 ],
+    "func-names": [ 0 ],
+    "no-console": [ 0 ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "preset": "airbnb",
+  "disallowSpacesInFunctionExpression": null,
+  "disallowSpacesInAnonymousFunctionExpression": null,
+  "disallowTrailingWhitespace": null,
+  "requireCamelCaseOrUpperCaseIdentifiers": null,
+  "requireSpaceBetweenArguments": null,
+  "requireTrailingComma": null,
+}
