@@ -28,6 +28,7 @@ function findRules(cb) {
 }
 
 function best(config) {
+  // TODO: allow extra rules to be passed in
 
   findRules(function(err, rules) {
     if (err) console.log(err);
@@ -37,11 +38,17 @@ function best(config) {
 
       debug('rule:' + rule.name);
       var module = rule.module;
-      rule.module(config, cb);
+      rule.module(config, function(err, results) {
+        if (err) return cb(err);
+        var msg = results.success ? 'succeded' : 'failed';
+        debug('rule:' + rule.name + ' ' + msg);
+        cb();
+      });
 
       // TODO: capture some sort of response from the rules
 
-    }, function() {
+    }, function(err) {
+      if (err) console.log(err);
       if (!/node-dev$/.test(process.env._)) {
         process.exit(0);
       } else {
