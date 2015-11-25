@@ -1,4 +1,7 @@
 {
   "debug": true,
-  "url": "http://www.clevertech.biz/"
+  "url": "http://www.clevertech.biz/",
+  "rules": {
+    "favicon": [ 0 ]
+  }
 }

@@ -13,9 +13,6 @@ function findRules(cb) {
     files = _(files).filter(function(file) {
       // ignore non JS files
       return /\.js$/.test(file);
-    }).filter(function(file) {
-      // TODO: ignore rules which are not needed based on config
-      return true;
     }).map(function(file) {
       return {
         name: file.replace(/\.js$/, ''),
@@ -36,7 +33,14 @@ function best(config) {
     // run the rule
     async.eachSeries(rules, function(rule, cb) {
 
-      debug('rule:' + rule.name);
+      // ignore rules which are not needed based on config
+      rule.config = config.rules[rule.name];
+      if (_.isArray(rule.config) && rule.config[0] === 0) {
+        debug('rule: skipping' + rule.name);
+        return cb();
+      }
+
+      debug('rule: ' + rule.name);
       var module = rule.module;
       rule.module(config, function(err, results) {
         if (err) return cb(err);
