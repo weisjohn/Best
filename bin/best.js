@@ -11,7 +11,6 @@ var best = require('../');
 
 program
   .version(pkg.version)
-  .option('--debug', '-D', 'Don\'t overwrite the `.eslintrc` file')
   .parse(process.argv);
 
 function read(cb) {
