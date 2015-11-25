@@ -1,7 +1,7 @@
 {
   "name": "best",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "run arbitrarily defined best practice tests",
   "main": "index.js",
   "bin": "bin/best.js",
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "async": "^1.5.0",
+    "debug": "^2.2.0",
     "lodash": "^3.10.1"
   }
 }
