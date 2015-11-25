@@ -27,12 +27,13 @@ function findRules(cb) {
 
 function best(config) {
   // TODO: allow extra rules to be passed in
+  console.log(config.url)
 
   findRules(function(err, rules) {
     if (err) console.log(err);
 
     // run the rule
-    async.each(rules, function(rule, cb) {
+    async.eachSeries(rules, function(rule, cb) {
 
       // ignore rules which are not needed based on config
       rule.config = config.rules[rule.name];
@@ -45,7 +46,7 @@ function best(config) {
       debug('invoke: ' + rule.name);
       rule.module(config, function(err, results) {
         if (err) return cb(err);
-        
+
         // capture response from the rule invoke
         rule.results = results;
         cb();
@@ -57,7 +58,7 @@ function best(config) {
       _.each(rules, function(rule) {
         if (!rule.results) return;
         var msg = rule.results.success ? 'succeded' : 'failed';
-        debug('rule:' + rule.name + ' ' + msg);
+        debug(rule.name + ' ' + msg);
       });
 
       if (!/node-dev$/.test(process.env._)) {
