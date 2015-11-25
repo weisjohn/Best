@@ -14,20 +14,19 @@ function findRules(_cb) {
       fs.readdir(rulesDir, cb);
     }, function(files, cb) {
 
-      var files = _.map(files, function(file) {
+      files = _(files).filter(function(file) {
+        // ignore non JS files
+        return /\.js$/.test(file);
+      }).filter(function(file) {
+        // TODO: ignore rules which are not needed based on config
+        return true;
+      }).map(function(file) {
         return path.join(rulesDir, file);
-      });
+      }).value();
 
-      // TODO: ignore rules which are not needed based on config
+      console.log(files);
 
-      async.map(files, function(file, cb) {
-        fs.stat(file, function(err, stats) {
-          if (!stats.isDirectory()) return cb();
-          cb(err, file);
-        });
-      }, function(err, files) {
-        cb(err, _.without(files, undefined));
-      });
+      cb(null, files);
 
     }, function(rules, cb) {
       var modules = rules.map(function(rule) {
@@ -45,21 +44,25 @@ function best(config) {
     if (err) console.log(err);
 
     async.eachSeries(rules, function(rule, cb) {
-      // console.log('running rule', rule);
+      console.log('running rule', rule);
 
       // init rule
-      var module = rule[rule.length - 1];
+      // var module = rule[rule.length - 1];
+      var module = rule;
 
       // TODO: the dep injection thing...
       // TODO: do a .apply
-      module();
+      module({}, cb);
 
       // TODO: make the rules async
-      cb();
+    }, function() {
+      if (!/node-dev$/.test(process.env._)) {
+        process.exit(0);
+      } else {
+        setInterval(function() {}, 1e3);
+      }
     });
   });
 }
 
 module.exports = best;
-
-setInterval(function() {}, 1e3);
