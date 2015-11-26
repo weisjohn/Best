@@ -35,17 +35,16 @@ module.exports = function cache(config, cb) {
 
     // detect whether or not it uses a cache breaker
     var cached = locals.filter(function(resource) {
-
       if (hashed.test(resource)) {
         debug('hashed', resource);
       } else if (versioned.test(resource)) {
         debug('versioned', resource);
       } else {
         debug('missed', resource);
-        return;
+        return false;
       }
-      return resource;
 
+      return resource;
     });
 
     debug('assets ' + locals.length);

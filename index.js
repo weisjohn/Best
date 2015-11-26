@@ -10,24 +10,23 @@ function findRules(cb) {
   var rulesDir = path.join(__dirname, 'rules');
 
   fs.readdir(rulesDir, function(err, files) {
-    files = _(files).filter(function(file) {
+    var _files = _(files).filter(function(file) {
       // ignore non JS files
       return /\.js$/.test(file);
     }).map(function(file) {
       return {
         name: file.replace(/\.js$/, ''),
-        module: require(path.join(rulesDir, file))
+        module: require(path.join(rulesDir, file)),
       };
     }).value();
 
-    debug('found: ' + files.length);
-    cb(err, files);
+    debug('found: ' + _files.length);
+    cb(err, _files);
   });
 }
 
 function best(config) {
   // TODO: allow extra rules to be passed in
-  console.log(config.url)
 
   findRules(function(err, rules) {
     if (err) console.log(err);
@@ -44,8 +43,8 @@ function best(config) {
       }
 
       debug('invoke ' + rule.name);
-      rule.module(config, function(err, results) {
-        if (err) return cb(err);
+      rule.module(config, function(_err, results) {
+        if (_err) return cb(_err);
 
         // capture response from the rule invoke
         rule.results = results;
@@ -54,19 +53,8 @@ function best(config) {
         cb();
       });
 
-    }, function(err) {
-      if (err) console.log(err);
-
-      _.each(rules, function(rule) {
-        if (!rule.results) return;
-
-      });
-
-      if (!/node-dev$/.test(process.env._)) {
-        process.exit(0);
-      } else {
-        setInterval(function() {}, 1e3);
-      }
+    }, function(_err) {
+      if (_err) console.log(err);
     });
   });
 }

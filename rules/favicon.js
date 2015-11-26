@@ -6,7 +6,6 @@ var url = require('url');
 var debug = require('debug')('best:favicon');
 
 module.exports = function favicon(config, cb) {
-
   request.get(config.url, function(err, res) {
     if (err) return cb(err);
 
@@ -23,18 +22,20 @@ module.exports = function favicon(config, cb) {
     if (resources.length === 0) resources.push('/favicon.ico');
 
     // look for a favicon
-    async.detect(resources, function(resource, cb) {
+    async.detect(resources, function(resource, _cb) {
       var _url = url.resolve(config.url, resource);
       debug('fetch ' + resource);
 
       // attempt to fetch the favicon
-      request.get(_url, function(err, res) {
-        var status = res.statusCode === 200;
-        var image = res.headers['content-type'] === 'image/x-icon';
-        var content = res.headers['content-length'] !== '0';
+      request.get(_url, function(_err, _res) {
+        if (_err) return cb();
 
-        if (status && image || status && content) return cb(resource);
-        return cb();
+        var status = _res.statusCode === 200;
+        var image = _res.headers['content-type'] === 'image/x-icon';
+        var content = _res.headers['content-length'] !== '0';
+
+        if (status && image || status && content) return _cb(resource);
+        return _cb();
       });
 
     }, function(result) {
