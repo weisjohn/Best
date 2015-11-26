@@ -6,6 +6,8 @@ var fs = require('fs');
 var path = require('path');
 var cwd = process.cwd();
 var file = path.join(cwd, '.bestrc');
+var _ = require('lodash');
+var colors = require('colors/safe');
 
 var best = require('../');
 
@@ -35,5 +37,19 @@ read(function(err, config) {
     process.exit(-1);
   }
 
-  best(config);
+  best(config, function(_err, rules) {
+    if (_err) console.log(_err);
+
+    var failures = _.find(rules, { success: false });
+    if (!failures) return process.exit(0);
+
+    _.each(rules, function(rule) {
+      if (rule.success) return;
+      var error = [ '\u00D7', rule.name ];
+      if (rule.errors) error = error.concat([ rule.errors, 'failures' ]);
+      console.log(colors.bold.red(error.join(' ')));
+    });
+
+    process.exit(-1);
+  });
 });
