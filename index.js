@@ -25,14 +25,14 @@ function findRules(cb) {
   });
 }
 
-function best(config) {
+function best(config, cb) {
   // TODO: allow extra rules to be passed in
 
   findRules(function(err, rules) {
     if (err) console.log(err);
 
     // run the rule
-    async.eachSeries(rules, function(rule, cb) {
+    async.eachSeries(rules, function(rule, _cb) {
 
       // ignore rules which are not needed based on config
       rule.config = config.rules[rule.name];
@@ -47,14 +47,16 @@ function best(config) {
         if (_err) return cb(_err);
 
         // capture response from the rule invoke
-        rule.results = results;
-        var msg = rule.results.success ? 'succeded' : 'failed';
+        rule.success = results.success;
+        rule.errors = results.errors;
+
+        var msg = rule.success ? 'succeded' : 'failed';
         debug('finish ' + rule.name + ' ' + msg);
-        cb();
+        _cb();
       });
 
     }, function(_err) {
-      if (_err) console.log(err);
+      cb(_err, rules);
     });
   });
 }
