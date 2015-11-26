@@ -48,8 +48,8 @@ module.exports = function cache(config, cb) {
 
     });
 
-    debug('local assets: ', locals.length);
-    debug('using cache-breakers: ' + cached.length);
+    debug('assets ' + locals.length);
+    debug('caches ' + cached.length);
 
     // determine score
     var success = (locals.length / 2) < cached.length;

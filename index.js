@@ -39,16 +39,18 @@ function best(config) {
       rule.config = config.rules[rule.name];
       if (_.isArray(rule.config) && rule.config[0] === 0) {
         rule.skipped = true;
-        debug('ignore: ' + rule.name);
+        debug('ignore ' + rule.name);
         return cb();
       }
 
-      debug('invoke: ' + rule.name);
+      debug('invoke ' + rule.name);
       rule.module(config, function(err, results) {
         if (err) return cb(err);
 
         // capture response from the rule invoke
         rule.results = results;
+        var msg = rule.results.success ? 'succeded' : 'failed';
+        debug('finish ' + rule.name + ' ' + msg);
         cb();
       });
 
@@ -57,8 +59,7 @@ function best(config) {
 
       _.each(rules, function(rule) {
         if (!rule.results) return;
-        var msg = rule.results.success ? 'succeded' : 'failed';
-        debug(rule.name + ' ' + msg);
+
       });
 
       if (!/node-dev$/.test(process.env._)) {
