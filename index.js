@@ -11,8 +11,9 @@ function findRules(cb) {
 
   fs.readdir(rulesDir, function(err, files) {
     var _files = _(files).filter(function(file) {
-      // ignore non JS files
-      return /\.js$/.test(file);
+
+      // ignore utils or non JS files
+      return file !== 'utils.js' && /\.js$/.test(file);
     }).map(function(file) {
       return {
         name: file.replace(/\.js$/, ''),
@@ -54,6 +55,7 @@ function best(config, cb) {
       debug('invoke ' + rule.name);
       rule.module(config, function(_err, results) {
         if (_err) return cb(_err);
+        if (!results) throw new Error('malformed rule definition');
 
         // capture response from the rule invoke
         rule.pass = results.pass;
