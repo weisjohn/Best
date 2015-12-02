@@ -3,6 +3,7 @@
 
 var debug = require('debug')('best:cache');
 var utils = require('./utils');
+var _ = require('lodash');
 
 // cache breaking detection regexes
 var hashed = /[0-9a-f]{4}/;
@@ -45,7 +46,7 @@ module.exports = function cache(config, cb) {
     // determine score
     var response = {
       pass: (locals.length / 2) < cached.length,
-      errors: locals.length - cached.length,
+      errors: _.difference(results.resources, cached),
     };
 
     cb(null, response);
