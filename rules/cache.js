@@ -46,7 +46,7 @@ module.exports = function cache(config, cb) {
     // determine score
     var response = {
       pass: (locals.length / 2) < cached.length,
-      errors: _.difference(results.resources, cached),
+      errors: _.difference(locals, cached),
     };
 
     cb(null, response);
