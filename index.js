@@ -53,7 +53,10 @@ function best(config, cb) {
       }
 
       debug('invoke ' + rule.name);
-      rule.module(config, function(_err, results) {
+
+      // don't allow rules to poison the config
+      var _config = _.clone(config);
+      rule.module(_config, function(_err, results) {
         if (_err) return cb(_err);
         if (!results) throw new Error('malformed rule definition');
 
