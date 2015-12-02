@@ -48,7 +48,7 @@ function best(config, cb) {
         if (_.isArray(rule.config) && rule.config[0] === 0) {
           rule.skipped = true;
           debug('ignore ' + rule.name);
-          return cb();
+          return _cb();
         }
       }
 
