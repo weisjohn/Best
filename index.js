@@ -25,6 +25,13 @@ function findRules(cb) {
   });
 }
 
+function filterSuccess(rules, success) {
+  return _(rules).where({ pass: success })
+    .map(function(item) {
+      return _.omit(item, 'pass');
+    }).value();
+}
+
 function best(config, cb) {
   // TODO: allow extra rules to be passed in
 
@@ -35,11 +42,13 @@ function best(config, cb) {
     async.eachSeries(rules, function(rule, _cb) {
 
       // ignore rules which are not needed based on config
-      rule.config = config.rules[rule.name];
-      if (_.isArray(rule.config) && rule.config[0] === 0) {
-        rule.skipped = true;
-        debug('ignore ' + rule.name);
-        return cb();
+      if (config.rules) {
+        rule.config = config.rules[rule.name];
+        if (_.isArray(rule.config) && rule.config[0] === 0) {
+          rule.skipped = true;
+          debug('ignore ' + rule.name);
+          return cb();
+        }
       }
 
       debug('invoke ' + rule.name);
@@ -56,7 +65,11 @@ function best(config, cb) {
       });
 
     }, function(_err) {
-      cb(_err, rules);
+
+      var fail = filterSuccess(rules, false);
+      var pass = filterSuccess(rules, true);
+
+      cb(_err, { fail: fail, pass: pass });
     });
   });
 }

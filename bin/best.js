@@ -32,37 +32,26 @@ function read(cb) {
   });
 }
 
-function filter_success(rules, success) {
-  return _(rules).where({ pass: success })
-    .map(function(item) {
-      return _.omit(item, 'pass');
-    }).value();
-}
-
 read(function(err, config) {
   if (err) {
     console.log(err);
     process.exit(-1);
   }
 
-  best(config, function(_err, rules) {
+  best(config, function(_err, results) {
     if (_err) console.log(_err);
-
-    var fail = filter_success(rules, false);
-    var pass = filter_success(rules, true);
 
     // allow structured output for reporting
     if (program.output) {
-      console.log(JSON.stringify({ fail: fail, pass: pass }, null, 2));
+      console.log(JSON.stringify(results, null, 2));
       return process.exit(0);
     }
 
     // use like a build tool
-    if (!fail.length) return process.exit(0);
+    if (!results.fail.length) return process.exit(0);
 
     // output for errors
-    _.each(rules, function(rule) {
-      if (rule.pass) return;
+    _.each(results.fail, function(rule) {
       var error = [ '\u00D7', rule.name ];
       if (rule.errors) error = error.concat([ rule.errors, 'failures' ]);
       console.log(colors.bold.red(error.join(' ')));
