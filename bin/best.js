@@ -52,9 +52,14 @@ read(function(err, config) {
 
     // output for errors
     _.each(results.fail, function(rule) {
-      var error = [ '\u00D7', rule.name ];
-      if (rule.errors) error = error.concat([ rule.errors, 'failures' ]);
-      console.log(colors.bold.red(error.join(' ')));
+      if (rule.errors) {
+        var error = [ '\u00D7', rule.name ];
+        error = error.concat([ rule.errors.length, 'failures' ]);
+        console.log(colors.bold.red(error.join(' ')));
+        rule.errors.forEach(function(err) {
+          console.log('  ' + err);
+        });
+      }
     });
 
     process.exit(-1);
