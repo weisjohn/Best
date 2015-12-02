@@ -1,25 +1,27 @@
 
+// detect if there is at least one favicon
+
 var request = require('request');
-var cheerio = require('cheerio');
 var async = require('async');
 var url = require('url');
+
 var debug = require('debug')('best:favicon');
+var utils = require('./utils');
+
+// we need CSS and JS files
+var tags = [{
+  selector: 'link[rel="shortcut icon"]',
+  attr: 'href',
+}];
 
 module.exports = function favicon(config, cb) {
-  request.get(config.url, function(err, res) {
+
+  config.tags = tags;
+  utils.resources(config, function(err, results) {
     if (err) return cb(err);
 
-    // parse the HTML for resources
-    var $ = cheerio.load(res.body);
-    var resources = [];
-
-    $('link[rel="shortcut icon"]').each(function() {
-      var href = $(this).attr('href');
-      if (href) resources.push(href);
-    });
-
-    // if the site does not specify a favicon, add a default url
-    if (resources.length === 0) resources.push('/favicon.ico');
+    // if the site does not specify a favicon, use the default url
+    var resources = results.resources.length || ['/favicon.ico'];
 
     // look for a favicon
     async.detect(resources, function(resource, _cb) {
