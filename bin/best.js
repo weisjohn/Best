@@ -43,6 +43,7 @@ read(function(err, config) {
 
     // allow structured output for reporting
     if (program.output) {
+      results.config = config;
       console.log(JSON.stringify(results, null, 2));
       return process.exit(0);
     }
