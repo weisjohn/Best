@@ -39,7 +39,7 @@ module.exports = function favicon(config, cb) {
       });
 
     }, function(result) {
-      cb(null, { success: !!result });
+      cb(null, { pass: !!result });
     });
 
   });

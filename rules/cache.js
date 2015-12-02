@@ -51,9 +51,11 @@ module.exports = function cache(config, cb) {
     debug('caches ' + cached.length);
 
     // determine score
-    var success = (locals.length / 2) < cached.length;
-    var errors = locals.length - cached.length;
+    var response = {
+      pass: (locals.length / 2) < cached.length,
+      errors: locals.length - cached.length
+    };
 
-    cb(null, { success: success, errors: errors });
+    cb(null, response);
   });
 };

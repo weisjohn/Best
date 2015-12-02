@@ -13,6 +13,7 @@ var best = require('../');
 
 program
   .version(pkg.version)
+  .option('-o, --output', 'Produce JSON results')
   .parse(process.argv);
 
 function read(cb) {
@@ -31,6 +32,13 @@ function read(cb) {
   });
 }
 
+function filter_success(rules, success) {
+  return _(rules).where({ pass: success })
+    .map(function(item) {
+      return _.omit(item, 'pass');
+    }).value();
+}
+
 read(function(err, config) {
   if (err) {
     console.log(err);
@@ -40,11 +48,21 @@ read(function(err, config) {
   best(config, function(_err, rules) {
     if (_err) console.log(_err);
 
-    var failures = _.find(rules, { success: false });
-    if (!failures) return process.exit(0);
+    var fail = filter_success(rules, false);
+    var pass = filter_success(rules, true);
 
+    // allow structured output for reporting
+    if (program.output) {
+      console.log(JSON.stringify({ fail: fail, pass: pass }, null, 2));
+      return process.exit(0);
+    }
+
+    // use like a build tool
+    if (!fail.length) return process.exit(0);
+
+    // output for errors
     _.each(rules, function(rule) {
-      if (rule.success) return;
+      if (rule.pass) return;
       var error = [ '\u00D7', rule.name ];
       if (rule.errors) error = error.concat([ rule.errors, 'failures' ]);
       console.log(colors.bold.red(error.join(' ')));

@@ -47,10 +47,10 @@ function best(config, cb) {
         if (_err) return cb(_err);
 
         // capture response from the rule invoke
-        rule.success = results.success;
+        rule.pass = results.pass;
         rule.errors = results.errors;
 
-        var msg = rule.success ? 'succeded' : 'failed';
+        var msg = rule.pass ? 'succeded' : 'failed';
         debug('finish ' + rule.name + ' ' + msg);
         _cb();
       });
