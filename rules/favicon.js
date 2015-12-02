@@ -21,7 +21,7 @@ module.exports = function favicon(config, cb) {
     if (err) return cb(err);
 
     // if the site does not specify a favicon, use the default url
-    var resources = results.resources.length || ['/favicon.ico'];
+    var resources = results.resources.length ? results.resources : ['/favicon.ico'];
 
     // look for a favicon
     async.detect(resources, function(resource, _cb) {
