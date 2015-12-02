@@ -8,7 +8,7 @@ var url = require('url');
 var debug = require('debug')('best:favicon');
 var utils = require('./utils');
 
-// we need CSS and JS files
+// we need favicon links
 var tags = [{
   selector: 'link[rel="shortcut icon"]',
   attr: 'href',
