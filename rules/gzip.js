@@ -18,7 +18,7 @@ var tags = [{
   attr: 'src',
 }];
 
-module.exports = function favicon(config, cb) {
+module.exports = function gzip(config, cb) {
 
   config.tags = tags;
   utils.resources(config, function(err, res) {
