@@ -5,9 +5,11 @@ var request = require('request');
 var cheerio = require('cheerio');
 var debug = require('debug')('best:util');
 
+// TODO: this should be memo-ized
 function resources(config, cb) {
   if (!config.tags) throw new Error('A tag map must be specified');
 
+  // TODO: log the URL we're fetching
   request.get(config.url, function(err, res) {
     if (err) return cb(err);
 
@@ -26,7 +28,7 @@ function resources(config, cb) {
     // ignore different domains & protocol relative _resources
     var locals = _resources.filter(function(resource) {
       if (!/^(http\:|https\:)?\/\//.test(resource)) return true;
-      debug('ignore', resource);
+      debug('remote', resource);
     });
 
     debug('totals ' + _resources.length);
