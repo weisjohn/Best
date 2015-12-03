@@ -54,7 +54,7 @@ read(function(err, config) {
     // output for errors
     _.each(results.fail, function(rule) {
       if (rule.errors) {
-        var error = [ '\u00D7', rule.name ];
+        var error = [ '\u00D7', rule.name, '-' ];
         error = error.concat([ rule.errors.length, 'failures' ]);
         console.log(colors.bold.red(error.join(' ')));
         rule.errors.forEach(function(err) {
