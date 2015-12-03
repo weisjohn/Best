@@ -26,10 +26,12 @@ module.exports = function meta(config, cb) {
 
     $('meta').each(function() {
       var name = $(this).attr('name');
+      if (!name) return;
       var content = $(this).attr('content');
 
       // only add if the tag has a name and content is not empty
-      if (name && content) resources[name] = content;
+      if (content) resources[name] = content;
+      debug('name: ' + name + ', content: ' + content);
     });
 
     var errors = _.difference(required, _.keys(resources));
