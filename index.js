@@ -36,6 +36,9 @@ function filterSuccess(rules, success) {
 function best(config, cb) {
   // TODO: allow extra rules to be passed in
 
+  debug('config.url', config.url);
+  if (!config.url) return cb('invalid configuration');
+
   findRules(function(err, rules) {
     if (err) console.log(err);
 
