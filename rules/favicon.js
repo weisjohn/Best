@@ -10,7 +10,7 @@ var utils = require('./utils');
 
 // we need favicon links
 var tags = [{
-  selector: 'link[rel="icon"]',
+  selector: 'link[rel$="icon"]',
   attr: 'href',
 }];
 
