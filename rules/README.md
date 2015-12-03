@@ -27,7 +27,7 @@ This test checks JavaScript and CSS file references for either a alphanumeric co
 <script src="/js/main.js?v=1.1.0" />
 ```
 
-If less than half of all locally-defined (not external-domain) assets, the rule fails.
+If less than half of all locally-defined (not external-domain) assets, this rule fails.
 
 ### favicon
 
@@ -38,15 +38,27 @@ Sites should use [favicons](https://en.wikipedia.org/wiki/Favicon#How_to_use). S
 <link rel="icon" href="/img/icon.png" />
 ```
 
-If not specified we attempt to fetch the `favicon.ico` file at the site's root. If we are able to fetch a favicon, the rule passes.
+If not specified we attempt to fetch the `favicon.ico` file at the site's root.
+
+If we are not able to fetch a favicon, this rule fails.
 
 ### gzip
 
-Sites should use compression. This rule tests if all JavaScript and CSS assets are transfered with `gzip` compression (See [Text Compression With GZIP](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer#text-compression-with-gzip) to learn more).
+Sites should use compression. This rule tests if all JavaScript and CSS assets are transfered with `gzip` compression. See [Text Compression With GZIP](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer#text-compression-with-gzip) for more info.
 
 ### https
 
-Sites should use https for all traffic, (especially with the advent of [Let's Encrypt](https://letsencrypt.org/)). This rule attempts to fetch the given URL (even if specified as `http://...`), with HTTPS. If the site has an invalid certificate, this rule fails.
+Sites should use https for all traffic, (especially with the advent of [Let's Encrypt](https://letsencrypt.org/)). This rule attempts to fetch the given URL (even if specified as `http://...`), with HTTPS.
+
+If the site has an invalid certificate, this rule fails.
+
+### resources
+
+Where possible, sites should concatenate and minify JavaScript and CSS files. See [Optimizing content efficiency
+](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/) and [Eliminating unnecessary downloads
+](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads?hl=en) for more info.
+
+If the site has more than 10 separate JavaScript and CSS resources, this rule will fail.
 
 ### meta
 
