@@ -1,7 +1,6 @@
 
 // detect if resources are sent using gzip
 
-var request = require('request');
 var async = require('async');
 var url = require('url');
 var _ = require('lodash');
@@ -28,10 +27,9 @@ module.exports = function gzip(config, cb) {
     async.map(res.resources, function(resource, _cb) {
 
       var _url = url.resolve(config.url, resource);
-      debug('fetch ' + resource);
 
       // fetch the resource
-      request.get({ url: _url, gzip: true }, function(_err, _res) {
+      utils.get({ url: _url, gzip: true }, function(_err, _res) {
         if (_err) return cb(_err);
 
         var encoding = _res.headers['content-encoding'];

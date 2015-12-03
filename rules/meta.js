@@ -1,12 +1,11 @@
 
 // ensure meta tags are set properly
 
-var request = require('request');
 var cheerio = require('cheerio');
+var _ = require('lodash');
 
 var debug = require('debug')('best:meta');
 var utils = require('./utils');
-var _ = require('lodash');
 
 var required = [
   'description',
@@ -17,7 +16,7 @@ var required = [
 
 module.exports = function meta(config, cb) {
 
-  request.get(config.url, function(err, res) {
+  utils.get(config, function(err, res) {
     if (err) return cb(err);
 
     // parse the HTML for resources

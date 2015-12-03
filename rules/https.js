@@ -1,8 +1,6 @@
 
 // ensure site has a valid HTTPS connection
 
-var request = require('request');
-
 var debug = require('debug')('best:https');
 var utils = require('./utils');
 
@@ -17,7 +15,7 @@ module.exports = function https(config, cb) {
   }
 
   debug('fetch: ' + config.url);
-  request.get(config.url, function(err, res) {
+  utils.get(config, function(err, res) {
 
     // verify the error matches a known error message
     if (err && mismatch.test(err.message)) {
