@@ -25,7 +25,7 @@ module.exports = function meta(config, cb) {
     var resources = {};
 
     $('meta').each(function() {
-      var name = $(this).attr('name');
+      var name = $(this).attr('name') || $(this).attr('property');
       if (!name) return;
       var content = $(this).attr('content');
 
