@@ -22,6 +22,10 @@ module.exports = function https(config, cb) {
       debug('error: ' + err.reason);
     } else if (err) {
       return cb(err);
+    } else if (res.statusCode !== 200) {
+
+      // if the site doesn't send a 200, there's a problem
+      err = 'Invalid HTTP Status Code: ' + res.statusCode;
     }
 
     var ret = { pass: !err };
