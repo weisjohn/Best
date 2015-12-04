@@ -51,12 +51,21 @@ read(function(err, config) {
     // use like a build tool
     if (!results.fail.length) return process.exit(0);
 
-    // output for errors
+    // show failed rules, along with a count and the errors
     _.each(results.fail, function(rule) {
+      var error = [ '\u00D7', rule.name ];
+
+      // if there are a count of errors, include that in the rule line
       if (rule.errors) {
-        var error = [ '\u00D7', rule.name, '-' ];
-        error = error.concat([ rule.errors.length, 'failures' ]);
-        console.log(colors.bold.red(error.join(' ')));
+        var len = rule.errors.length;
+        var pluralized = 'failure' + (len === 1 ? '' : 's');
+        error = error.concat([ '-', rule.errors.length, pluralized ]);
+      }
+
+      console.log(colors.bold.red(error.join(' ')));
+
+      // show each particular error within that rule
+      if (rule.errors) {
         rule.errors.forEach(function(err) {
           console.log('  ' + err);
         });
