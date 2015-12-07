@@ -22,7 +22,7 @@ module.exports = function resources(config, cb) {
     if (err) return cb(err);
 
     var len = results.resources.length;
-    var ret = { pass: len < max };
+    var ret = { pass: len <= max };
     if (!ret.pass) ret.errors = results.resources;
 
     cb(null, ret);
