@@ -1,7 +1,7 @@
 
 // detect if there are more than 10 resources
 
-var debug = require('debug')('best:resources');
+// var debug = require('debug')('best:resources');
 var utils = require('./utils');
 
 // we need CSS and JS files

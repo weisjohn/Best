@@ -4,7 +4,7 @@ var url = require('url');
 var css = require('css-parse');
 var _ = require('lodash');
 
-var debug = require('debug')('best:media_queries');
+// var debug = require('debug')('best:media_queries');
 var utils = require('./utils');
 
 // minimium number of non-print MQs necessary
@@ -21,15 +21,13 @@ function findResponsiveMediaQueries(body) {
   var rules = parsed.stylesheet.rules;
 
   // looks for media queries that aren't print
-  var rwd_mqs = _.chain(rules)
+  return _.chain(rules)
     .where({ type: 'media' })
     .reject({ media: 'print' })
-    .value();
-
-  return rwd_mqs.length;
+    .value().length;
 }
 
-module.exports = function media_queries(config, cb) {
+module.exports = function mediaQueries(config, cb) {
 
   // fetch these tags from the resources
   config.tags = tags;
@@ -41,17 +39,18 @@ module.exports = function media_queries(config, cb) {
   utils.resources(config, function(err, results) {
     // TODO: detect if a boilerplate is included separately in the resources
 
-    if (!results.resources || !results.resources.length)
+    if (!results.resources || !results.resources.length) {
       return cb(null, { pass: false, errors: 'no CSS found' });
+    }
 
     // fetch all CSS files
-    async.map(results.resources, function(resource, cb) {
+    async.map(results.resources, function(resource, _cb) {
       var _url = url.resolve(config.url, resource);
-      utils.get({ url: _url }, function(err, res) {
-        if (err) return cb(err);
-        cb(null, { file: resource, body: res.body });
+      utils.get({ url: _url }, function(error, response) {
+        if (error) return _cb(error);
+        _cb(null, { file: resource, body: response.body });
       });
-    }, function(err, _results) {
+    }, function(error, _results) {
 
       var queries = _results.map(function(res) {
         return findResponsiveMediaQueries(res.body);
