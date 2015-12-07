@@ -60,6 +60,10 @@ Where possible, sites should concatenate and minify JavaScript and CSS files. Se
 
 If the site has more than 10 separate JavaScript and CSS resources, this rule will fail.
 
+### media_queries
+
+This rule looks to see if the site utilizes media queries to style aspects of the document. First, CSS files specified in `<link>` tags are processed, then, it is run through an analyzer to detect the use of non-print media queries. If the site uses more than 60 media queries (approximately the number supplied by Bootstrap, this rule succeeds. (This rule definition needs refinement).
+
 ### meta
 
 This rule searches for the presence of standard `meta` tags, such as `description`, `keywords`, and a few of [Facebook's Open Graph tags](https://developers.facebook.com/docs/sharing/best-practices#tags). If any of these tags are missing, the fule fails.
