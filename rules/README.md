@@ -1,12 +1,24 @@
 # rules
 
-Each `best` rule is implemented as `function name(config, cb) {}` where `config` is a copy of the `.bestrc` configuration (or the configuration invoked against best), i.e.
+Each `best` rule is implemented as `function name(config, cb) {}` where `config` is a copy of the `.bestrc` configuration (or the configuration invoked against best), e.g.
 
 ```json
 {
   "url": "http://example.net/",
 }
 ```
+
+This error-first style callback must be invoked either with an `error`, or an `object` with a `pass` boolean, and an optional `errors` array of strings. The `error` is reserved for passing _exceptional_ errors, like a failure to connect to a server, not a rule-failure.
+
+For example:
+
+```js
+module.exports = function always_fails(config, cb) {
+  return cb(null, { pass: false, errors: ['This rule always fails'] });
+}
+```
+
+&nbsp;
 
 The rules which are supplied are as follows:
 
