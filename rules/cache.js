@@ -7,7 +7,7 @@ var _ = require('lodash');
 
 // cache breaking detection regexes
 var hashed = /[0-9a-f]{4}/;
-var versioned = /\?(v)\=/;
+var versioned = /\?(v|version|t)\=/;
 
 // we need CSS and JS files
 var tags = [{
