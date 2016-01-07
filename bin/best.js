@@ -13,8 +13,14 @@ var best = require('../');
 
 program
   .version(pkg.version)
-  .option('-o, --output', 'Produce JSON results')
-  .parse(process.argv);
+  .option('-o, --output', 'Produce JSON results');
+
+var configKeys = [ 'url' ];
+configKeys.forEach(function(key) {
+  program.option('--' + key + ' [value]', 'Override ' + key + ' config');
+});
+
+program.parse(process.argv);
 
 function read(cb) {
   fs.access(file, fs.R_OK | fs.W_OK, function(err) {
@@ -34,12 +40,21 @@ function read(cb) {
 
 read(function(err, config) {
   if (err) {
-    console.log(err);
-    process.exit(-1);
+    console.error('Error reading .bestrc', err);
+    config = {};
   }
 
+  // combine config with program
+  configKeys.forEach(function(key) {
+    if (program[key]) config[key] = program[key];
+  });
+
   best(config, function(_err, results) {
-    if (_err) console.log(_err);
+    // if there's an error, bolt
+    if (_err) {
+      console.log(_err);
+      process.exit(-1);
+    }
 
     // allow structured output for reporting
     if (program.output) {
@@ -49,7 +64,7 @@ read(function(err, config) {
     }
 
     // use like a build tool
-    if (!results.fail.length) return process.exit(0);
+    if (!results || !results.fail.length) return process.exit(0);
 
     // show failed rules, along with a count and the errors
     _.each(results.fail, function(rule) {
@@ -66,8 +81,8 @@ read(function(err, config) {
 
       // show each particular error within that rule
       if (rule.errors) {
-        rule.errors.forEach(function(err) {
-          console.log('  ' + err);
+        rule.errors.forEach(function(__err) {
+          console.log('  ' + __err);
         });
       }
     });
