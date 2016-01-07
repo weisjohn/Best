@@ -18,6 +18,8 @@ best(config, function(err, rules) {
 
 First, define a [`.bestrc`](./.bestrc) file in the directory you wish to use, then run `$ best`. If any rules fail, `best` returns a non-zero exit code. This is helpful if you wish to include it as part of a build process.
 
+Alternatively, specify config via command-line parameters, such as `$ best --url http://example.net`:
+
 `best` also has a simple JSON reporter, if you wish to capture the output
 
 `$ best -o`
