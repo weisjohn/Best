@@ -5,8 +5,8 @@ run arbitrarily defined best practice tests
 
 ### usage
 
-```
-var config = { "url": "http://example.net/" };
+```javascript
+var config = { 'url': 'http://example.net/' };
 
 best(config, function(err, rules) {
   console.log('failing rules', rules.fail);
@@ -28,7 +28,7 @@ Alternatively, specify config via command-line parameters, such as `$ best --url
 
 `best` ships with [predefined rules](./rules/README.md), which you may ignore by adding to your config a `rules` object, with the name of the rule marked as ignore, similar to `.eslintrc` configuration:
 
-```
+```javascript
 {
   "url": "http://example.net/",
   "rules": {
