@@ -8,6 +8,7 @@ var cwd = process.cwd();
 var file = path.join(cwd, '.bestrc');
 var _ = require('lodash');
 var colors = require('colors/safe');
+var util = require('util');
 
 var best = require('../');
 
@@ -39,8 +40,12 @@ function read(cb) {
 }
 
 read(function(err, config) {
+
+  // only warn if there is a .bestrc and it's not well formed
   if (err) {
-    console.error('Error reading .bestrc', err);
+    if (err.code !== 'ENOENT') {
+      console.error('Error reading .bestrc', err);
+    }
     config = {};
   }
 
@@ -71,16 +76,21 @@ read(function(err, config) {
       var error = [ '\u00D7', rule.name ];
 
       // if there are a count of errors, include that in the rule line
-      if (rule.errors) {
+      if (_.isArray(rule.errors)) {
         var len = rule.errors.length;
         var pluralized = 'failure' + (len === 1 ? '' : 's');
         error = error.concat([ '-', rule.errors.length, pluralized ]);
+      } else {
+        error = [
+          util.format('This is a fatal bug with the %s rule.', rule.name),
+          util.format('\nPlease report it at: %s', pkg.bugs.url),
+        ];
       }
 
       console.log(colors.bold.red(error.join(' ')));
 
       // show each particular error within that rule
-      if (rule.errors) {
+      if (_.isArray(rule.errors)) {
         rule.errors.forEach(function(__err) {
           console.log('  ' + __err);
         });
