@@ -15,7 +15,7 @@ var utils = {
     return request.get(opts, cb);
   }, function(opts) {
     return sigmund(opts.url);
-  })
+  }),
 };
 
 // return an array of values from a tag map (an array of objects with selector,property pairs)
@@ -29,6 +29,7 @@ function _resources(config, cb) {
     var resources = [];
 
     // find elements which match the tags specified by caller
+    debug(config.tags);
     config.tags.forEach(function(tag) {
       $(tag.selector).each(function() {
         var attr = $(this).attr(tag.attr);
