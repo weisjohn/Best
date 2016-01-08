@@ -29,7 +29,12 @@ module.exports = function https(config, cb) {
     }
 
     var ret = { pass: !err };
-    if (err) ret.errors = [err];
+    if (err) {
+      if (err.cert && err.cert.raw) {
+        delete err.cert.raw;
+      }
+      ret.errors = [err];
+    }
 
     cb(null, ret);
   });
