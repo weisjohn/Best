@@ -2,7 +2,6 @@
 
 run arbitrarily defined best practice tests
 
-
 ### usage
 
 ```javascript
