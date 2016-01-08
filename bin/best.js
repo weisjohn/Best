@@ -8,7 +8,6 @@ var cwd = process.cwd();
 var file = path.join(cwd, '.bestrc');
 var _ = require('lodash');
 var colors = require('colors/safe');
-var util = require('util');
 
 var best = require('../');
 
