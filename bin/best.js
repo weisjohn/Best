@@ -73,24 +73,24 @@ read(function(err, config) {
 
     // show failed rules, along with a count and the errors
     _.each(results.fail, function(rule) {
-      var error = [ '\u00D7', rule.name ];
+      var message = [ '\u00D7', rule.name ];
 
-      // if there are a count of errors, include that in the rule line
-      if (_.isArray(rule.errors)) {
-        var len = rule.errors.length;
-        var pluralized = 'failure' + (len === 1 ? '' : 's');
-        error = error.concat([ '-', rule.errors.length, pluralized ]);
-      } else {
-        error = [
-          util.format('This is a fatal bug with the %s rule.', rule.name),
-          util.format('\nPlease report it at: %s', pkg.bugs.url),
-        ];
+      // errors should be an array
+      if (rule.errors && !_.isArray(rule.errors)) {
+        rule.errors = [rule.errors];
       }
 
-      console.log(colors.bold.red(error.join(' ')));
+      // if there are a count of errors, include that in the rule line
+      if (rule.errors) {
+        var len = rule.errors.length;
+        var pluralized = 'failure' + (len === 1 ? '' : 's');
+        message = message.concat([ '-', len, pluralized ]);
+      }
+
+      console.log(colors.bold.red(message.join(' ')));
 
       // show each particular error within that rule
-      if (_.isArray(rule.errors)) {
+      if (rule.errors) {
         rule.errors.forEach(function(__err) {
           console.log('  ' + __err);
         });
