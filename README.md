@@ -37,3 +37,12 @@ Alternatively, specify config via command-line parameters, such as `$ best --url
 ```
 
 You can additionally specify [your own rules](./rules/README.md) by attaching them to the "rules" object.
+
+
+### debug
+
+`best` uses [`debug`](https://www.npmjs.com/package/debug) heavily to show what's going on under the hood.
+
+```
+$ DEBUG="best:*" best
+```
