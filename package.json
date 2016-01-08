@@ -1,7 +1,7 @@
 {
   "name": "best",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "run arbitrarily defined best practice tests",
   "main": "index.js",
   "bin": "bin/best.js",
