@@ -86,3 +86,10 @@ Where possible, sites should concatenate and minify JavaScript and CSS files. Se
 ](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads?hl=en) for more info.
 
 If the site has more than 10 separate JavaScript and CSS resources, this rule will fail.
+
+
+### script
+
+This rule examines if any `<script>` tags are pausing HTML parsing, blocking DOM construction, or delaying render. All external `<script>` tags should use the either [`async`](http://caniuse.com/#feat=script-async) or [`defer`](http://caniuse.com/#feat=script-defer) [where possible](http://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html). This rule [ignores inline scripts](https://twitter.com/paul_irish/status/97502446674391041). This rule fails if any more than 20% of the external `<script>` resources are not marked as either `async` or `defer`.
+
+See [Remove Render-Blocking JavaScript](https://developers.google.com/speed/docs/insights/BlockingJS) from PageSpeed Insights and [Adding interactivity with JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript?hl=en) or this thorough [Stack Overflow answer](http://stackoverflow.com/questions/436411/where-is-the-best-place-to-put-script-tags-in-html-markup/24070373#24070373) for more info.
