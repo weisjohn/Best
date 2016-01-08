@@ -17,11 +17,9 @@ best(config, function(err, rules) {
 
 First, define a [`.bestrc`](./.bestrc) file in the directory you wish to use, then run `$ best`. If any rules fail, `best` returns a non-zero exit code. This is helpful if you wish to include it as part of a build process.
 
-Alternatively, specify config via command-line parameters, such as `$ best --url http://example.net`:
+Alternatively, specify config via command-line parameters: `$ best --url http://example.net`
 
-`best` also has a simple JSON reporter, if you wish to capture the output
-
-`$ best -o`
+`best` also has a simple JSON reporter, if you wish to capture the output: `$ best -o`
 
 ### configuration
 
@@ -41,8 +39,4 @@ You can additionally specify [your own rules](./rules/README.md) by attaching th
 
 ### debug
 
-`best` uses [`debug`](https://www.npmjs.com/package/debug) heavily to show what's going on under the hood.
-
-```
-$ DEBUG="best:*" best
-```
+`best` uses [`debug`](https://www.npmjs.com/package/debug) heavily to show what's going on under the hood: `$ DEBUG="best:*" best`
