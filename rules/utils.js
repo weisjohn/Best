@@ -26,26 +26,26 @@ function _resources(config, cb) {
 
     // parse the HTML for resources
     var $ = cheerio.load(res.body);
-    var resources = [];
+    var results = { all: [], resources: [], locals: [] };
+
+    // ignore different domains & protocol relative resources
+    var remote = /^(http\:|https\:)?\/\//;
 
     // find elements which match the tags specified by caller
     debug(config.tags);
     config.tags.forEach(function(tag) {
       $(tag.selector).each(function() {
-        resources.push($(this).attr(tag.attr));
+        var attr = $(this).attr(tag.attr);
+        results.all.push(attr);
+        if (attr) results.resources.push(attr);
+        if (!remote.test(attr)) results.locals.push(attr);
       });
     });
 
-    // ignore different domains & protocol relative resources
-    var locals = resources.filter(function(resource) {
-      if (!/^(http\:|https\:)?\/\//.test(resource)) return true;
-      debug('remote', resource);
-    });
+    debug('totals ' + results.resources.length);
+    debug('assets ' + results.locals.length);
 
-    debug('totals ' + resources.length);
-    debug('assets ' + locals.length);
-
-    cb(null, { resources: resources, locals: locals });
+    cb(null, results);
 
   });
 }
