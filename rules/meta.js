@@ -11,7 +11,7 @@ var required = [
   'description',
   'keywords',
   'og:title',
-  'og:image'
+  'og:image',
 ];
 
 module.exports = function meta(config, cb) {
