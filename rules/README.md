@@ -23,6 +23,10 @@ module.exports = function always_fails(config, cb) {
 The rules which are supplied are as follows:
 
 
+### alt
+
+The `alt` attribute on an `<img>` tag is used to [specify alternative text](https://en.wikipedia.org/wiki/Alt_attribute) which would be displayed when there is no way to render that image. This is helpful for screen-readers and search engines alike. Any images which do not have content which can be described should probably be declared as a [CSS Background Image](https://developer.mozilla.org/en-US/docs/Web/CSS/background-image).
+
 ### cache
 
 This test determines if the site utilizes some sort of cache-breaking URL mechanism to prevent browsers from using out-dated front-end assets between releases. (See [Invalidating and updating cached responses](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching#invalidating-and-updating-cached-responses) for more info).
