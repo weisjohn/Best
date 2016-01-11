@@ -36,9 +36,12 @@ function _resources(config, cb) {
     config.tags.forEach(function(tag) {
       $(tag.selector).each(function() {
         var attr = $(this).attr(tag.attr);
+        debug('attr: ' + tag.attr, attr);
         results.all.push(attr);
-        if (attr) results.resources.push(attr);
-        if (!remote.test(attr)) results.locals.push(attr);
+        if (!!attr) {
+          results.resources.push(attr);
+          if (!remote.test(attr)) results.locals.push(attr);
+        }
       });
     });
 
