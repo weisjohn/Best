@@ -32,8 +32,7 @@ function _resources(config, cb) {
     debug(config.tags);
     config.tags.forEach(function(tag) {
       $(tag.selector).each(function() {
-        var attr = $(this).attr(tag.attr);
-        if (attr) resources.push(attr);
+        resources.push($(this).attr(tag.attr));
       });
     });
 
