@@ -2,6 +2,12 @@
 
 run arbitrarily defined best practice tests
 
+### quick start
+
+1. Clone the repo: `git clone https://github.com/clevertech/Best.git`
+2. Install dependencies `npm install`
+3. Create a global binary for the cli `npm link`
+
 ### usage
 
 ```javascript
