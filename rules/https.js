@@ -20,7 +20,7 @@ module.exports = function https(config, cb) {
     // verify the error matches a known error message
     if (err && mismatch.test(err.message)) {
       debug('error: ' + err.reason);
-    } else if (err.code === 'ECONNREFUSED') {
+    } else if (err.code === 'ECONNREFUSED' || err.code === 'ECONNRESET') {
       err = 'cannot connect via HTTPS';
     } else if (err) {
       return cb(err);
